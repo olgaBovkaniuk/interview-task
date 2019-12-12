@@ -5,20 +5,30 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.gmail.olgabovkaniuk</groupId>
-    <artifactId>interview-task</artifactId>
+    <artifactId>log-manager</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <file.encoding>UTF-8</file.encoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>5.2.0.RELEASE</spring.version>
-        <hibernate.version>5.4.3.Final</hibernate.version>
-        <lombok.version>1.18.10</lombok.version>
     </properties>
 
-
-
+    <profiles>
+        <profile>
+            <id>install_all_modules</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>data-base</module>
+                <module>parser</module>
+                <module>updater</module>
+                <module>logmanager-web-app</module>
+            </modules>
+        </profile>
+    </profiles>
 
 </project>
