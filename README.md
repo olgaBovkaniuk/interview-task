@@ -25,7 +25,8 @@ location:
 /updater/src/main/resources/app.properties
 ```
 
-requred properties:
+requred properties: 
+
 NOTE: by default prepared test log files will be processed ( see directory `<project dir>/files` )
 ```
 log.files.dir.path=${user.dir}/files
