@@ -4,11 +4,14 @@
 
 ### 1.1 Setup WEB-APP application properties
 
+location:
 ```
 /logmanager-web-app/src/main/resources/application.properties
+```
 
-by default is:
+required properties (by default is):
 
+```
 server.port=8085
 spring.datasource.url=jdbc:mysql://localhost:3306/log_manager?createDatabaseIfNotExist=true&useSSL=false
 spring.datasource.username=root
@@ -17,9 +20,13 @@ spring.datasource.password=root
 
 ### 1.2 Setup UPDATER application properties
 
+location:
 ```
 /updater/src/main/resources/app.properties
+```
 
+requred properties:
+```
 log.files.dir.path=<path to log files dir>
 ```
 
