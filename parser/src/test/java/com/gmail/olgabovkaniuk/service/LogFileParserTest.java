@@ -7,7 +7,6 @@ import org.junit.Test;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -35,12 +34,12 @@ public class LogFileParserTest {
     }
 
     @Test
-    public void parseRowTest() throws ParseException {
+    public void parseRowTest() {
         // given
-        String logRow = "2019-10-27 23:50:08,530 INFO Olga Bovkaniuk some text message : with symbols []";
+        String logRow = "2019-10-27 23:50:08 INFO Olga Bovkaniuk some text message : with symbols []";
 
         LogRowDataDto expected = new LogRowDataDto(
-                new Timestamp(1572209408530L),
+                new Timestamp(1572209408000L),
                 MessageType.INFO,
                 "Olga",
                 "Bovkaniuk",

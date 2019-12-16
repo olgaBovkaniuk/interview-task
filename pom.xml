@@ -23,7 +23,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>data-base</module>
+                <module>liquibase</module>
                 <module>parser</module>
                 <module>updater</module>
                 <module>logmanager-web-app</module>

@@ -12,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -29,36 +30,38 @@ public class LogFileParser {
         try (BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(fileName))) {
             logRows = bufferedReader.lines().collect(Collectors.toList());
             logRowDataDtos = mapLogRowToDto(logRows);
-        } catch (IOException | ParseException e) {
+        } catch (IOException e) {
             log.severe(e.getMessage());
         }
         return logRowDataDtos;
     }
 
-    public List<LogRowDataDto> mapLogRowToDto(List<String> logRows) throws ParseException {
-        List<LogRowDataDto> logRowDataDtos = new ArrayList<>();
-        LogRowDataDto logRowDataDto;
+    public List<LogRowDataDto> mapLogRowToDto(List<String> logRows) {
 
-        for (String logRow : logRows) {
-            logRowDataDto = parseRow(logRow);
-            logRowDataDtos.add(logRowDataDto);
-        }
-        return logRowDataDtos;
+        return logRows.stream()
+                .map(this::parseRow)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
-    LogRowDataDto parseRow(String logRow) throws ParseException {
+    LogRowDataDto parseRow(String logRow) {
 
         String dateAsString = logRow.substring(0, DATE_STR_LENGTH);
 
         logRow = logRow.substring(DATE_STR_LENGTH + 1);
         String[] parsedRowArray = logRow.split(" ", 4);
 
-        return new LogRowDataDto(
-                new Timestamp(SIMPLE_DATE_FORMAT.parse(dateAsString).getTime()),
-                MessageType.getMessageType(parsedRowArray[0]),
-                parsedRowArray[1],
-                parsedRowArray[2],
-                parsedRowArray[3]
-        );
+        try {
+            return new LogRowDataDto(
+                    new Timestamp(SIMPLE_DATE_FORMAT.parse(dateAsString).getTime()),
+                    MessageType.getMessageType(parsedRowArray[0]),
+                    parsedRowArray[1],
+                    parsedRowArray[2],
+                    parsedRowArray[3]
+            );
+        } catch (ParseException e) {
+            log.severe("Cannot parse date: " + dateAsString);
+        }
+        return null;
     }
 }
