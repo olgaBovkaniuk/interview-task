@@ -43,12 +43,9 @@
                         </goals>
                         <phase>process-sources</phase>
                         <configuration>
+                            <propertyFileWillOverride>true</propertyFileWillOverride>
+                            <propertyFile>liquibase.properties</propertyFile>
                             <changeLogFile>src/main/resources/changeLog.xml</changeLogFile>
-                            <url>
-                                jdbc:mysql://localhost:3306/log_manager?createDatabaseIfNotExist=true&amp;useSSL=false
-                            </url>
-                            <username>root</username>
-                            <password>root</password>
                             <driver>com.mysql.jdbc.Driver</driver>
                         </configuration>
                     </execution>

@@ -34,11 +34,10 @@ public class UpdaterAsync {
     public void async() {
         log.info("Updater started async!");
         while (!isTerminated) {
+            logFileUpdater.saveLogFile(appProperties.getLogFilesDirPath());
             try {
                 Thread.sleep(60 * 1000 * 10);
             } catch (InterruptedException e) {}
-
-            logFileUpdater.saveLogFile(appProperties.getLogFilesDirPath());
         }
     }
 }
