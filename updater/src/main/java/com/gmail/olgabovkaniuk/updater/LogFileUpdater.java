@@ -17,11 +17,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Component
 public class LogFileUpdater {
+
+    private static final Logger log = Logger.getLogger(LogFileUpdater.class.getName());
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -51,9 +54,10 @@ public class LogFileUpdater {
                     .filter(Files::isRegularFile)
                     .map(Path::getFileName)
                     .map(Path::toString)
+                    .filter(fileName -> fileName.contains(".log"))
                     .collect(Collectors.toList());
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            log.severe(e.getMessage());
         }
         return allFilesFromDirectory;
     }

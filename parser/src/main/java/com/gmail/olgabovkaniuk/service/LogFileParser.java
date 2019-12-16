@@ -30,8 +30,8 @@ public class LogFileParser {
         try (BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(fileName))) {
             logRows = bufferedReader.lines().collect(Collectors.toList());
             logRowDataDtos = mapLogRowToDto(logRows);
-        } catch (IOException e) {
-            log.severe(e.getMessage());
+        } catch (Exception e) {
+            log.severe(e.getMessage() + " File name: " + fileName);
         }
         return logRowDataDtos;
     }
