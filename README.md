@@ -35,6 +35,11 @@ log.files.dir.path=<path to log files dir>
 mvn clean install
 ```
 
+### 1.4 Go to `logmanager-web-app` dir and execute command
+```
+mvn spring-boot:run
+```
+
 ## 2. Project diagram
 
 ![image](Project_diagram.png)
