@@ -2,7 +2,7 @@
 
 ## 1. How to install
 
-### 1.1 Setup WEB-APP application properties
+### 1.1 Setup `WEB-APP` application properties
 
 location:
 ```
@@ -18,7 +18,7 @@ spring.datasource.username=root
 spring.datasource.password=root
 ```
 
-### 1.2 Setup UPDATER application properties
+### 1.2 Setup `UPDATER` application properties
 
 location:
 ```
