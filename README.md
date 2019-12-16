@@ -1,9 +1,12 @@
-# How to install
+# Log manager project
 
+## How to install
+
+go to `log-manager` dir and execute command
 ```
-gregerg
+mvn clean install
 ```
 
-### Project diagram
+## 2Project diagram
 
 ![image](Project_diagram.png)
