@@ -2,21 +2,21 @@ package com.gmail.olgabovkaniuk.updater;
 
 import com.gmail.olgabovkaniuk.domain.ProcessedFile;
 import com.gmail.olgabovkaniuk.repository.ProcessedFileRepository;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-import org.springframework.transaction.annotation.Transactional;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -32,7 +32,7 @@ public class LogFileUpdater {
     @Autowired
     LogFileHandler logFileHandler;
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void saveLogFile(String directoryPath) {
         List<String> consideredNewFiles = getListAllFilesFromDirectory(directoryPath);
         List<String> processedFiles = getListAllFilesFromDB();
@@ -41,14 +41,7 @@ public class LogFileUpdater {
 
         consideredNewFiles.stream()
                 .filter(o -> !unavailableFiles.contains(o))
-                .forEach(newLogFileName -> {
-                    logFileHandler.handleFile(newLogFileName);
-                    ProcessedFile processedFile = new ProcessedFile(
-                            newLogFileName
-                    );
-                    processedFileRepository
-                            .save(processedFile);
-                });
+                .forEach(logFileHandler::handleFile);
     }
 
     public List<String> getListAllFilesFromDirectory(String directoryPath) {

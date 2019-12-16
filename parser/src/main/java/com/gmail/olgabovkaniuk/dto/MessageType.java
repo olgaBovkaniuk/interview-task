@@ -9,7 +9,7 @@ public enum MessageType {
         try {
             return MessageType.valueOf(messageType.toUpperCase());
         } catch (IllegalArgumentException e) {
-            System.out.println("messageType has not been found!");
+            System.out.println("messageType has not been found: " + messageType);
             e.printStackTrace();
         }
         return null;

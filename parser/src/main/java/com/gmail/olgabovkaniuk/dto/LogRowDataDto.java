@@ -1,6 +1,7 @@
 package com.gmail.olgabovkaniuk.dto;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class LogRowDataDto {
     private Timestamp logRowDate;
@@ -35,5 +36,22 @@ public class LogRowDataDto {
 
     public String getMessage() {
         return message;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LogRowDataDto that = (LogRowDataDto) o;
+        return Objects.equals(logRowDate, that.logRowDate) &&
+                messageType == that.messageType &&
+                Objects.equals(firstName, that.firstName) &&
+                Objects.equals(lastName, that.lastName) &&
+                Objects.equals(message, that.message);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(logRowDate, messageType, firstName, lastName, message);
     }
 }

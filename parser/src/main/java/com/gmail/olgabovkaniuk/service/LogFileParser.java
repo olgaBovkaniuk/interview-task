@@ -11,7 +11,6 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -19,7 +18,10 @@ import java.util.stream.Collectors;
 
 public class LogFileParser {
 
-    Logger log = Logger.getLogger(LogFileParser.class.getName());
+    private static final int DATE_STR_LENGTH = "XXXX-XX-XX XX:XX:XX".length();
+    private static SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    private static final Logger log = Logger.getLogger(LogFileParser.class.getName());
 
     public List<LogRowDataDto> readLogFile(String fileName) {
         List<String> logRows = new ArrayList<>();
@@ -36,32 +38,27 @@ public class LogFileParser {
     public List<LogRowDataDto> mapLogRowToDto(List<String> logRows) throws ParseException {
         List<LogRowDataDto> logRowDataDtos = new ArrayList<>();
         LogRowDataDto logRowDataDto;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss,SSS");
+
         for (String logRow : logRows) {
-            List<String> parsedLogRow = parseLogRow(logRow);
-            logRowDataDto = new LogRowDataDto(
-                    new Timestamp(simpleDateFormat.parse(parsedLogRow.get(0)).getTime()),
-                    MessageType.getMessageType(parsedLogRow.get(1)),
-                    parsedLogRow.get(2),
-                    parsedLogRow.get(3),
-                    parsedLogRow.get(4)
-            );
+            logRowDataDto = parseRow(logRow);
             logRowDataDtos.add(logRowDataDto);
         }
         return logRowDataDtos;
     }
 
-    private List<String> parseLogRow(String logRow) {
-        List<String> parsedRow = new LinkedList<>();
-        parsedRow.add(logRow.substring(0, "XXXX-XX-XX XX:XX:XX,XXX".length()));
-        String[] parsedRowArray = logRow.split(" ", 6);
-        for (int index = 0; index < parsedRowArray.length; index++) {
-            if (index < 2) {
-                continue;
-            }
-            parsedRow.add(parsedRowArray[index]);
-        }
-        return parsedRow;
-    }
+    LogRowDataDto parseRow(String logRow) throws ParseException {
 
+        String dateAsString = logRow.substring(0, DATE_STR_LENGTH);
+
+        logRow = logRow.substring(DATE_STR_LENGTH + 1);
+        String[] parsedRowArray = logRow.split(" ", 4);
+
+        return new LogRowDataDto(
+                new Timestamp(SIMPLE_DATE_FORMAT.parse(dateAsString).getTime()),
+                MessageType.getMessageType(parsedRowArray[0]),
+                parsedRowArray[1],
+                parsedRowArray[2],
+                parsedRowArray[3]
+        );
+    }
 }

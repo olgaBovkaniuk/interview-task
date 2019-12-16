@@ -1,5 +1,6 @@
 package com.gmail.olgabovkaniuk.updater;
 
+import com.gmail.olgabovkaniuk.AppProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -10,7 +11,6 @@ import java.util.logging.Logger;
 @Component
 public class UpdaterAsync {
 
-    public static final String  DIRECTORY_PATH = "/Users/mr_nikolasmirnov/projects/logmanager/files";
     private static Logger log = Logger.getLogger(UpdaterAsync.class.getName());
 
     @Autowired
@@ -18,6 +18,9 @@ public class UpdaterAsync {
 
     @Autowired
     LogFileUpdater logFileUpdater;
+
+    @Autowired
+    AppProperties appProperties;
 
     private static volatile boolean isTerminated = false;
 
@@ -32,25 +35,10 @@ public class UpdaterAsync {
         log.info("Updater started async!");
         while (!isTerminated) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(60 * 1000 * 10);
             } catch (InterruptedException e) {}
 
-            //save log files from folder to db
-            logFileUpdater.saveLogFile(DIRECTORY_PATH);
-
-//            Long lastProcessedLogFileId = lastProcessedLogFileUpdater.getLastProcessedLogFileId();
-
-//            String logFileName = lastProcessedLogFileUpdater.getLogFileName(lastProcessedLogFileId).getFileName();
-
-//             lastProcessedLogFileUpdater.getLogFileName(lastProcessedLogFileId).getFileId();
-
-//            if (logFileName == null) {
-//                continue;
-//            }
-
-//            if (logFileHandler.handleFile(logFileName)) {
-//                lastProcessedLogFileUpdater.updateLastProcessedLogFile(lastProcessedLogFileId);
-//            }
+            logFileUpdater.saveLogFile(appProperties.getLogFilesDirPath());
         }
     }
 }
