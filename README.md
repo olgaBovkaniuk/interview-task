@@ -30,14 +30,28 @@ requred properties:
 log.files.dir.path=<path to log files dir>
 ```
 
-### 1.3 Go to `log-manager` dir and execute command
+### 1.3 Setup `LIQUIBASE` properties
+
+location:
+```
+/liquibase/liquibase.properties
+```
+
+requred properties (by default is):
+```
+url: jdbc:mysql://localhost:3306/log_manager?createDatabaseIfNotExist=true&amp;useSSL=false
+username: root
+password: root
+```
+
+### 1.4 Go to project parent dir ( `log-manager` ) and execute command
 ```
 mvn clean install
 ```
 
-### 1.4 Go to `logmanager-web-app` dir and execute command
+### 1.5 Run spring boot app
 ```
-mvn spring-boot:run
+mvn -f logmanager-web-app/pom.xml spring-boot:run
 ```
 
 ## 2. Project diagram
