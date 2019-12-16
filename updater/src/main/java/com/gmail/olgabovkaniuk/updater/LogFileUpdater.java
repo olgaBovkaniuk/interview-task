@@ -60,15 +60,12 @@ public class LogFileUpdater {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public List<String> getListAllFilesFromDB() {
-        List<ProcessedFile> from_processed_file = entityManager
+        List<ProcessedFile> processedFileList = entityManager
                 .createQuery("from processed_file", ProcessedFile.class)
                 .getResultList();
 
-        List<String> listAllFilesNamesFromDB = new ArrayList<>();
-        for (ProcessedFile processedFile : from_processed_file) {
-            listAllFilesNamesFromDB.add(processedFile.getFileName());
-        }
-        return listAllFilesNamesFromDB;
+        return processedFileList.stream()
+                .map(ProcessedFile::getFileName)
+                .collect(Collectors.toList());
     }
-
 }
