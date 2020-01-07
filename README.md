@@ -29,7 +29,7 @@ requred properties:
 
 NOTE: by default prepared test log files will be processed ( see directory `<project dir>/files` )
 ```
-log.files.dir.path=${user.dir}/files
+log.files.dir.path=${user.dir}/../files
 ```
 
 ### 1.3 Setup `LIQUIBASE` properties
@@ -53,7 +53,8 @@ mvn clean install
 
 ### 1.5 Run spring boot app
 ```
-mvn -f logmanager-web-app/pom.xml spring-boot:run
+cd logmanager-web-app 
+mvn spring-boot:run
 ```
 
 ## 2. Project diagram
